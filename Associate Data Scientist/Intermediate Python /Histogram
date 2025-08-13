@@ -1,0 +1,36 @@
+# Create histogram of life_exp data
+import matplotlib.pyplot as pyplot
+plt.hist(life_exp)
+
+# Display histogram
+plt.show()
+
+# Build histogram with 5 bins
+import matplotlib.pyplot as plt
+plt.hist(life_exp, 5)
+
+# Show and clean up plot
+plt.show()
+plt.clf()
+
+# Build histogram with 20 bins
+plt.hist(life_exp, 20)
+
+# Show and clean up again
+plt.show()
+plt.clf()
+
+# Histogram of life_exp, 15 bins
+import matplotlib.pyplot as plt
+plt.hist(life_exp, 15)
+
+# Show and clear plot
+plt.show()
+plt.clf()
+
+# Histogram of life_exp1950, 15 bins
+plt.hist(life_exp1950, 15)
+
+# Show and clear plot again
+plt.show()
+plt.clf()
