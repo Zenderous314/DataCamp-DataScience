@@ -68,3 +68,27 @@ mountain_reg = homelessness[homelessness["region"] == "Mountain"]
 # Print the filtered DataFrame
 print(mountain_reg)
 
+# Filter homelessness for rows with family_members < 1000 and region is "Pacific". Assign to fam_lt_1k_pac
+fam_lt_1k_pac = homelessness[(homelessness["family_members"] < 1000) & (homelessness["region"] == "Pacific")]
+
+# Print the result
+print(fam_lt_1k_pac)
+
+# Mojave Desert states list
+canu = ["California", "Arizona", "Nevada", "Utah"]
+
+# Filter homelessness for states in canu, assign to mojave_homelessness
+mojave_homelessness = homelessness[homelessness["state"].isin(canu)]
+
+# Print the result
+print(mojave_homelessness)
+
+# Add a column to homelessness with the sum of individuals and family_members
+homelessness["total"]  = homelessness["individuals"] + homelessness["family_members"]
+
+# Add a column with the proportion of total homeless to the state population
+homelessness["p_homeless"] = homelessness["total"] / homelessness["state_pop"]
+
+# Print the updated DataFrame
+print(homelessness)
+
