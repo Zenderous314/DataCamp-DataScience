@@ -199,3 +199,57 @@ temperatures_ind = temperatures.set_index("date").sort_index()
 print(temperatures_ind.loc["2010":"2011"])
 # Use .loc[] to subset temperatures_ind for rows from Aug 2010 to Feb 2011
 print(temperatures_ind.loc["2010-08":"2011-02"])
+# Get 23rd row, 2nd column (index 22, 1)
+print(temperatures.iloc[22, 1])
+
+# Use slicing to get the first 5 rows
+print(temperatures.iloc[:5])
+
+# Use slicing to get columns 3 to 4
+print(temperatures.iloc[:, 2:4])
+
+# Use slicing in both directions at once
+print(temperatures.iloc[:5, 2:4])
+
+# Add a year column to temperatures
+temperatures["year"] = temperatures["date"].dt.year
+# Pivot avg_temp_c by country and city vs year
+temp_by_country_city_vs_year = temperatures.pivot_table("avg_temp_c", index=["country", "city"], columns="year")
+
+# See the result
+print(temp_by_country_city_vs_year)
+
+# Get the worldwide mean temp by year
+mean_temp_by_year = temp_by_country_city_vs_year.mean()
+
+# Filter for the year that had the highest mean temp
+print(mean_temp_by_year[mean_temp_by_year == mean_temp_by_year.max()])
+
+# Get the mean temp by city
+mean_temp_by_city = temp_by_country_city_vs_year.mean(axis = 1)
+
+# Filter for the city that had the lowest mean temp
+print(mean_temp_by_city[mean_temp_by_city == mean_temp_by_city.min()])
+
+# Import matplotlib.pyplot with alias plt
+import matplotlib.pyplot as plt
+
+# Look at the first few rows of data
+print(avocados.head())
+
+# Get the total number of avocados sold of each size
+
+nb_sold_by_size = avocados.groupby("size")["nb_sold"].sum()
+
+# Create a bar plot of the number of avocados sold by size
+nb_sold_by_size.plot(kind="bar")
+
+# Show the plot
+plt.show()
+# Scatter plot of avg_price vs. nb_sold with title
+avocados.plot(x="nb_sold", y="avg_price", kind="scatter", title="Number of avocados sold vs. average price")
+
+# Show the plot
+plt.show()
+
+
