@@ -38,3 +38,48 @@ movies_and_scifi_only = movies.merge(scifi_only, left_on='id', right_on='movie_i
 print(movies_and_scifi_only.head())
 print(movies_and_scifi_only.shape)
 
+# Use right join to merge the movie_to_genres and pop_movies tables
+genres_movies = movie_to_genres.merge(pop_movies, how='right', 
+                                      left_on='movie_id', 
+                                      right_on='id')
+
+# Count the number of genres
+genre_count = genres_movies.groupby('genre').agg({'id':'count'})
+
+# Plot a bar chart of the genre_count
+genre_count.plot(kind='bar')
+plt.show()
+
+# Merge iron_1_actors to iron_2_actors on id with outer join using suffixes
+iron_1_and_2 = iron_1_actors.merge(iron_2_actors,
+                                     how='outer',
+                                     on='id',
+                                     suffixes=('_1','_2'))
+
+# Create an index that returns true if name_1 or name_2 are null
+m = ((iron_1_and_2['name_1'].isnull()) | 
+     (iron_1_and_2['name_2'].isnull()))
+
+# Print the first few rows of iron_1_and_2
+print(iron_1_and_2[m].head())
+
+# Merge the crews table to itself
+crews_self_merged = crews.merge(crews, how='inner', on='id', suffixes=('_dir','_crew'))
+
+# Merge the crews table to itself
+crews_self_merged = crews.merge(crews, on='id', how='inner',
+                                suffixes=('_dir','_crew'))
+
+# Create a Boolean index to select the appropriate rows
+boolean_filter = ((crews_self_merged['job_dir'] == 'Director') & 
+                  (crews_self_merged['job_crew'] != 'Director'))
+direct_crews = crews_self_merged[boolean_filter]
+# Print the first few rows of direct_crews
+print(direct_crews.head())
+
+# Merge to the movies table the ratings table on the index
+movies_ratings = movies.merge(ratings, on='id', how='left')
+
+# Print the first few rows of movies_ratings
+print(movies_ratings.head())
+
