@@ -55,3 +55,9 @@ dogs["coat_collapsed"] = dogs["coat_collapsed"].astype("category")
 # Print the frequency table
 print(dogs["coat_collapsed"].value_counts(dropna=False))
 
+# Print out the current categories of the size variable
+print(dogs["size"].cat.categories)
+
+# Reorder the categories using the list provided
+dogs["size"] = dogs["size"].cat.reorder_categories(new_categories=["small", "medium", "large"])
+
