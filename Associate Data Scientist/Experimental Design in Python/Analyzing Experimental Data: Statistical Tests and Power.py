@@ -57,3 +57,45 @@ tukey_results = pairwise_tukeyhsd(
 )
 
 print(tukey_results)
+p_values = []
+
+therapy_pairs = [('CBT', 'DBT'), ('CBT', 'ACT'), ('DBT', 'ACT')]
+
+# Conduct t-tests and collect P-values
+for pair in therapy_pairs:
+    group1 = therapy_outcomes[therapy_outcomes['Therapy_Type'] == pair[0]]['Anxiety_Reduction']
+    group2 = therapy_outcomes[therapy_outcomes['Therapy_Type'] == pair[1]]['Anxiety_Reduction']
+    t_stat, p_val = ttest_ind(group1, group2)
+    p_values.append(p_val)
+
+# Apply Bonferroni correction
+print(multipletests(p_values, alpha=0.05, method='bonferroni')[1])
+# Calculate mean Durability_Score for each Toy_Type
+mean_durability = toy_durability.pivot_table(
+  values='Durability_Score', index='Toy_Type', aggfunc="mean")
+print(mean_durability)
+
+# Perform t-test
+educational_durability = toy_durability[toy_durability['Toy_Type'] == 'Educational']['Durability_Score']
+recreational_durability = toy_durability[toy_durability['Toy_Type'] == 'Recreational']['Durability_Score']
+t_stat, p_val = ttest_ind(educational_durability, recreational_durability)
+
+print(p_val)
+# Visualize the distribution of Durability_Score for each Toy_Type
+sns.displot(data=toy_durability, x="Durability_Score", 
+         hue="Toy_Type", kind="kde")
+plt.title('Durability Score Distribution by Toy Type')
+plt.xlabel('Durability Score')
+plt.ylabel('Density')
+plt.show()
+# Instantiate a TTestIndPower object
+power_analysis = TTestIndPower ()
+
+# Conduct a power analysis to determine the required sample size
+required_n = power_analysis.solve_power(
+    effect_size=0.5, 
+    alpha=0.05, 
+    power=0.9, 
+    ratio=1)
+
+print(required_n)
